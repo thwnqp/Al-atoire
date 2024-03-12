@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Aléatoire</title>
     <style>
         body {
             background-color: #E3E7E8;
@@ -370,11 +370,17 @@ function reloadCard() {
             listCard.appendChild(newDiv);
         }
     });
-    total.innerText = "RM " + totalPrice.toLocaleString();
-    quantity.innerText = count;
-}
+    total.innerHTML = `Proceed to Checkout-RM ${totalPrice.toLocaleString()}`;
+        quantity.innerText = count;
+    }
 
-initApp();
+    // Initialize the app when the page loads
+    initApp();
+
+    // Link total price to checkout page
+    total.addEventListener('click', function() {
+        window.location.href = 'payment.html'; // Redirect to the payment checkout page
+    });
 </script>
 </body>
 </html>
