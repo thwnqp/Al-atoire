@@ -119,6 +119,7 @@
             display: grid;
             grid-template-columns: 100px repeat(3, 1fr);
             color: #fff;
+            column-gap: 20px; /* Space between columns */
             row-gap: 10px;
         }
         .listCard li div {
@@ -127,7 +128,8 @@
             align-items: center;
         }
         .listCard li img {
-            width: 90%;
+            width: 90%; 
+            height: auto;
         }
         .listCard li button {
             background-color: #fff5;
@@ -144,7 +146,7 @@
         <header>
             <h1>Your Shopping Cart</h1>
             <div class="shopping">
-                <img src="image/shopping.svg">
+                <img src="image/cart icon.png">
                 <span class="quantity">0</span>
             </div>
         </header>
@@ -357,14 +359,14 @@ function reloadCard() {
         if (value != null) {
             let newDiv = document.createElement('li');
             newDiv.innerHTML = `
-                <div><img src="image/${value.image}"/></div>
-                <div>${value.name}</div>
-                <div>RM ${value.totalPrice.toLocaleString()}</div>
-                <div>
-                    <button onclick="changeQuantity(${key}, ${value.quantity - 1})">-</button>
-                    <div class="count">${value.quantity}</div>
-                    <button onclick="changeQuantity(${key}, ${value.quantity + 1})">+</button>
-                </div>`;
+            <div><img src="${value.image}"/></div>
+            <div>${value.name}</div>
+            <div>RM ${value.totalPrice.toLocaleString()}</div>
+            <div>
+                <button onclick="changeQuantity(${key}, ${value.quantity - 1})">-</button>
+                <div class="count">${value.quantity}</div>
+                <button onclick="changeQuantity(${key}, ${value.quantity + 1})">+</button>
+            </div>`;
             listCard.appendChild(newDiv);
         }
     });
