@@ -180,10 +180,13 @@
             <p class="text-muted mb-0" id="discountText" style="display: none;">Discounted 16%</p>
             <form class="card p-2">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Promo code">
+                    <input type="text" class="form-control" id="promoCodeInput" placeholder="Promo code">
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary">Redeem</button>
+                        <button id="redeemButton" class="btn btn-secondary">Redeem</button>
                     </div>
+                </div>
+                <div class="invalid-feedback" style="display: none;">
+                    Invalid promo code.
                 </div>
             </form>
         </div>
@@ -203,21 +206,22 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Retrieve cart items from local storage
         const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-    
+        
         // Display cart items in the payment page
         const cartItemList = document.getElementById('cartItemList');
         const cartItemCount = document.getElementById('cartItemCount');
         const totalPriceDisplay = document.getElementById('totalPrice');
         const deliveryFeeDisplay = document.getElementById('deliveryFee');
         const discountText = document.getElementById('discountText'); // Reference to the discount text
+        const redeemFeedback = document.querySelector('.card .invalid-feedback'); // Reference to the redeem code invalid feedback
         let itemCount = 0;
         let totalPrice = 0;
-    
+
         if (cartItems && Object.keys(cartItems).length > 0) {
             Object.values(cartItems).forEach(item => {
                 itemCount += item.quantity;
                 totalPrice += item.totalPrice;
-    
+                
                 // Create list item for each cart item
                 const li = document.createElement('li');
                 li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'lh-condensed');
@@ -231,7 +235,7 @@
                 cartItemList.appendChild(li);
             });
         }
-    
+
         // Function to calculate and update the total price and delivery fee display
         function updateTotalPrice() {
             let total = totalPrice;
@@ -245,34 +249,72 @@
             } else {
                 deliveryFeeDisplay.textContent = ''; // Clear delivery fee display if pickup is selected
             }
-    
+
             totalPriceDisplay.textContent = `: RM ${total.toFixed(2)}`;
         }
-    
+
         // Listen for changes in the delivery option select element
         document.getElementById('deliveryOption').addEventListener('change', function() {
             updateTotalPrice();
         });
-    
+
+        // Listen for click on the "Submit Payment" button
+        document.querySelector('form.needs-validation button[type="submit"]').addEventListener('click', function(event) {
+            const form = document.querySelector('.needs-validation');
+            if (!form.checkValidity()) {
+                event.preventDefault(); // Prevent form submission if there are invalid fields
+
+                // Display invalid feedback for each invalid field
+                Array.from(form.elements).forEach(function(field) {
+                    if (!field.checkValidity()) {
+                        field.classList.add('is-invalid');
+                        const feedback = field.parentElement.querySelector('.invalid-feedback');
+                        if (feedback) {
+                            feedback.style.display = 'block';
+                        }
+                    }
+                });
+            }
+        });
+
+        // Listen for input on form fields to remove invalid feedback on input change
+        document.querySelectorAll('.needs-validation input, .needs-validation select').forEach(function(field) {
+            field.addEventListener('input', function() {
+                if (field.checkValidity()) {
+                    field.classList.remove('is-invalid');
+                    const feedback = field.parentElement.querySelector('.invalid-feedback');
+                    if (feedback) {
+                        feedback.style.display = 'none';
+                    }
+                }
+            });
+        });
+
         // Listen for click on the "Redeem" button
-        document.querySelector('form.card button[type="submit"]').addEventListener('click', function(event) {
+        document.getElementById('redeemButton').addEventListener('click', function(event) {
             event.preventDefault(); // Prevent form submission
-    
+
             // Get the input value
-            const promoCodeInput = document.querySelector('form.card input[type="text"]').value;
-    
+            const promoCodeInput = document.getElementById('promoCodeInput').value;
+
             // Check if the input value is "RAMADAN"
             if (promoCodeInput.trim() === 'RAMADAN') {
                 // Apply discount
                 const discount = totalPrice * 0.16; // 16% discount
                 totalPrice -= discount;
                 totalPriceDisplay.textContent = `: RM ${totalPrice.toFixed(2)}`;
-    
+
                 // Display the discount text
                 discountText.style.display = 'block';
+
+                // Hide the invalid feedback for redeem code
+                redeemFeedback.style.display = 'none';
+            } else {
+                // Display invalid feedback for redeem code
+                redeemFeedback.style.display = 'block';
             }
         });
-    
+
         // Update cart item count and total price
         cartItemCount.textContent = itemCount;
         updateTotalPrice();
