@@ -141,6 +141,25 @@
         .listCard .count {
             margin: 0 10px;
         }
+        /* Footer styles */
+        footer {
+        padding: 1rem;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        text-align: center; /* Align text to center */
+    }
+    footer p {
+        margin-bottom: 0.5rem;
+    }
+    footer ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    footer ul li {
+        display: inline;
+        margin-right: 1rem;
+    }
     </style>
 </head>
 <body class="">
@@ -167,6 +186,13 @@
             <div class="closeShopping">Close</div>
         </div>
     </div>
+    <!-- Footer -->
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2020-2024 Aléatoire</p>
+        <ul class="list-inline">
+            <!-- Add your list items here -->
+        </ul>
+    </footer>
 
  <script>
 let openShopping = document.querySelector('.shopping');
