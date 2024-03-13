@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aléatoire</title>
+    <!-- Slick CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
     <style>
         body {
             background-color: #E3E7E8;
@@ -173,16 +176,17 @@ let listCard = document.querySelector('.listCard');
 let body = document.querySelector('body');
 let total = document.querySelector('.total');
 let quantity = document.querySelector('.quantity');
+let isFirstAddToCart = true; // Add a flag to track if it's the first time adding to cart
 
 openShopping.addEventListener('click', ()=>{
     body.classList.add('active');
-})
+});
 closeShopping.addEventListener('click', ()=>{
     body.classList.remove('active');
-})
+});
 
 let products = [
-    {
+            {
                 id: 1,
                 name: 'Whole Cake-Milo Velour Decadence',
                 image: "image/whole-milo.png",
@@ -242,79 +246,79 @@ let products = [
                 image: 'image/petit-genmaicha.png',
                 price: 'RM 15'
              },
-             {
-                 id: 11,
-                 name: 'Petit-Café Blanc Indulgence Cake',
-                 image: 'image/petit-cakecafe.png',
-                 price: 'RM 15'
-              },
-              {
-                  id: 12,
-                  name: 'Petit-Orchard Harvest Cake',
-                  image: 'image/petit-orchard.png',
-                  price: 'RM 15'
-               },
-               {
-                   id: 13,
-                   name: 'Petit-Caramel Blue Cheesecake',
-                   image: 'image/petit-cheese.png',
-                   price: 'RM 15'
-                },
-                {
-                    id: 14,
-                    name: 'Petit-Chocolate Lava Cake',
-                    image: 'image/petit-lava.png',
-                    price: 'RM 15'
-                },
-                {
-                    id: 15,
-                    name: 'Croissant-Spandauer',
-                    image: 'image/cr-spandauer.png',
-                    price: 'RM 12'
-                },
-                {
-                    id: 16,
-                    name: 'Croissant-Il Buco',
-                    image: 'image/cr-il buco.png',
-                    price: 'RM 12'
-                },
-                {
-                    id: 17,
-                    name: 'Croissant-Tebirker',
-                    image: 'image/cr-tebirker.png',
-                    price: 'RM 12'
-                },
-                {
-                    id: 18,
-                    name: 'Croissant-Rosendals Trädgård',
-                    image: 'image/cr-rosendals.png',
-                    price: 'RM 12'
-                },
-                {
-                    id: 19,
-                    name: 'Croissant-Det Rene Brød',
-                    image: 'image/cr-det rene.png',
-                    price: 'RM 12'
-                },
-                {
-                    id: 20,
-                    name: 'Croissant-Fabrique',
-                    image: 'image/cr-fabrique.png',
-                    price: 'RM 12'
-                },
-                {
-                    id: 21,
-                    name: 'Whole Cake-Customized Cake',
-                    image: 'image/customized cake.png',
-                    price: 'RM 120000'
-                }
+            {
+                id: 11,
+                name: 'Petit-Café Blanc Indulgence Cake',
+                image: 'image/petit-cakecafe.png',
+                price: 'RM 15'
+            },
+            {
+                id: 12,
+                name: 'Petit-Orchard Harvest Cake',
+                image: 'image/petit-orchard.png',
+                price: 'RM 15'
+            },
+            {
+                id: 13,
+                name: 'Petit-Caramel Blue Cheesecake',
+                image: 'image/petit-cheese.png',
+                price: 'RM 15'
+            },
+            {
+                id: 14,
+                name: 'Petit-Chocolate Lava Cake',
+                image: 'image/petit-lava.png',
+                price: 'RM 15'
+            },
+            {
+                id: 15,
+                name: 'Croissant-Spandauer',
+                image: 'image/cr-spandauer.png',
+                price: 'RM 12'
+            },
+            {
+                id: 16,
+                name: 'Croissant-Il Buco',
+                image: 'image/cr-il buco.png',
+                price: 'RM 12'
+            },
+            {
+                id: 17,
+                name: 'Croissant-Tebirker',
+                image: 'image/cr-tebirker.png',
+                price: 'RM 12'
+            },
+            {
+                id: 18,
+                name: 'Croissant-Rosendals Trädgård',
+                image: 'image/cr-rosendals.png',
+                price: 'RM 12'
+            },
+            {
+                id: 19,
+                name: 'Croissant-Det Rene Brød',
+                image: 'image/cr-det rene.png',
+                price: 'RM 12'
+            },
+            {
+                id: 20,
+                name: 'Croissant-Fabrique',
+                image: 'image/cr-fabrique.png',
+                price: 'RM 12'
+            },
+            {
+                id: 21,
+                name: 'Whole Cake-Customized Cake',
+                image: 'image/customized cake.png',
+                price: 'RM 120000'
+            }
 
      
       
 ];
 let listCards = [];
 
-        function initApp() {
+    function initApp() {
             let list = document.querySelector('.list');
             products.forEach((product, index) => {
                 let itemDiv = document.createElement('div');
@@ -328,16 +332,23 @@ let listCards = [];
             });
         }
 
-function addToCard(key) {
-    if (listCards[key] == null) {
-        // Copy product from list to list card
-        listCards[key] = { ...products[key], quantity: 1, totalPrice: parseFloat(products[key].price.replace('RM ', '')) };
-    } else {
-        listCards[key].quantity++;
-        listCards[key].totalPrice = listCards[key].quantity * parseFloat(products[key].price.replace('RM ', ''));
+    function addToCard(key) {
+        if (!body.classList.contains('active')) { // Check if list card is closed
+            body.classList.add('active'); // Open the list card
+        }
+        if (listCards[key] == null) {
+            // Copy product from list to list card
+            listCards[key] = { ...products[key], quantity: 1, totalPrice: parseFloat(products[key].price.replace('RM ', '')) };
+            if (isFirstAddToCart) { // Check if it's the first time adding to cart
+                isFirstAddToCart = false; // Set flag to false after first addition
+            }
+        } else {
+            listCards[key].quantity++;
+            listCards[key].totalPrice = listCards[key].quantity * parseFloat(products[key].price.replace('RM ', ''));
+        }
+        reloadCard();
+        localStorage.setItem('cartItems', JSON.stringify(listCards));
     }
-    reloadCard();
-}
 
 function changeQuantity(key, quantity) {
     if (quantity === 0) {
@@ -347,6 +358,7 @@ function changeQuantity(key, quantity) {
         listCards[key].totalPrice = quantity * parseFloat(products[key].price.replace('RM ', ''));
     }
     reloadCard();
+    localStorage.setItem('cartItems', JSON.stringify(listCards));
 }
 
 function reloadCard() {
@@ -379,7 +391,11 @@ function reloadCard() {
 
     // Link total price to checkout page
     total.addEventListener('click', function() {
-        window.location.href = 'payment.html'; // Redirect to the payment checkout page
+    // Store cart items in local storage
+    localStorage.setItem('cartItems', JSON.stringify(listCards));
+    
+    // Redirect to the payment checkout page
+    window.location.href = 'payment.html';
     });
 </script>
 </body>
