@@ -102,6 +102,18 @@
                         </div>
                     </div>
                 </div>
+                
+            <div class="mb-3">
+                <label for="deliveryOption">Delivery Option</label>
+                <select class="custom-select d-block" id="deliveryOption" required>
+                <option value="">Choose...</option>
+                <option value="delivery">Delivery</option>
+                <option value="pickup">Pickup at Our Store</option>
+            </select>
+               <div class="invalid-feedback">
+                   Please select a delivery option.
+            </div>
+       </div>
                 <hr class="mb-4">
                 <h4 class="mb-3">Payment</h4>
 
@@ -153,27 +165,28 @@
             </form>
         </div>
         <div class="col-md-4 order-md-2">
-            <div class="mb-4">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted">Your Cart</span>
-                    <span class="badge badge-secondary badge-pill" id="cartItemCount">0</span>
-                </h4>
-                <ul class="list-group mb-3" id="cartItemList">
-                    <!-- Cart items will be dynamically added here -->
-                </ul>
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted">Total</span>
-                    <span class="text-muted" id="totalPrice">Total: RM 0.00</span>
-                </h4>
-                <form class="card p-2">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Promo code">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-secondary">Redeem</button>
-                        </div>
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your Cart</span>
+                <span class="badge badge-secondary badge-pill" id="cartItemCount">0</span>
+            </h4>
+            <ul class="list-group mb-3" id="cartItemList">
+                <!-- Cart items will be dynamically added here -->
+            </ul>
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Total</span>
+                <span class="text-muted" id="totalPrice">Total: RM 0.00</span>
+            </h4>
+            <p class="text-muted mb-0" id="deliveryFee">Delivery fee: RM 15.00 (Delivery option selected)</p>
+            <p class="text-muted mb-0" id="discountText" style="display: none;">Discounted 16%</p>
+            <form class="card p-2">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Promo code">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary">Redeem</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
         </div>
     </div>
 </div>
@@ -190,18 +203,21 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Retrieve cart items from local storage
         const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-        
+    
         // Display cart items in the payment page
         const cartItemList = document.getElementById('cartItemList');
         const cartItemCount = document.getElementById('cartItemCount');
+        const totalPriceDisplay = document.getElementById('totalPrice');
+        const deliveryFeeDisplay = document.getElementById('deliveryFee');
+        const discountText = document.getElementById('discountText'); // Reference to the discount text
         let itemCount = 0;
         let totalPrice = 0;
-
+    
         if (cartItems && Object.keys(cartItems).length > 0) {
             Object.values(cartItems).forEach(item => {
                 itemCount += item.quantity;
                 totalPrice += item.totalPrice;
-                
+    
                 // Create list item for each cart item
                 const li = document.createElement('li');
                 li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'lh-condensed');
@@ -215,10 +231,51 @@
                 cartItemList.appendChild(li);
             });
         }
-
+    
+        // Function to calculate and update the total price and delivery fee display
+        function updateTotalPrice() {
+            let total = totalPrice;
+            if (document.getElementById('deliveryOption').value === 'delivery') {
+                if (total > 200) {
+                    deliveryFeeDisplay.textContent = 'Delivery fee waived (Total exceeds RM 200)';
+                } else {
+                    total += 15; // Add delivery fee
+                    deliveryFeeDisplay.textContent = 'Delivery fee: RM 15.00';
+                }
+            } else {
+                deliveryFeeDisplay.textContent = ''; // Clear delivery fee display if pickup is selected
+            }
+    
+            totalPriceDisplay.textContent = `: RM ${total.toFixed(2)}`;
+        }
+    
+        // Listen for changes in the delivery option select element
+        document.getElementById('deliveryOption').addEventListener('change', function() {
+            updateTotalPrice();
+        });
+    
+        // Listen for click on the "Redeem" button
+        document.querySelector('form.card button[type="submit"]').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent form submission
+    
+            // Get the input value
+            const promoCodeInput = document.querySelector('form.card input[type="text"]').value;
+    
+            // Check if the input value is "RAMADAN"
+            if (promoCodeInput.trim() === 'RAMADAN') {
+                // Apply discount
+                const discount = totalPrice * 0.16; // 16% discount
+                totalPrice -= discount;
+                totalPriceDisplay.textContent = `: RM ${totalPrice.toFixed(2)}`;
+    
+                // Display the discount text
+                discountText.style.display = 'block';
+            }
+        });
+    
         // Update cart item count and total price
         cartItemCount.textContent = itemCount;
-        document.getElementById('totalPrice').textContent = `Total: RM ${totalPrice.toFixed(2)}`;
+        updateTotalPrice();
     });
 </script>
 </body>
