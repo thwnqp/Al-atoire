@@ -213,13 +213,36 @@
             // Create list item for each cart item
             const li = document.createElement('li');
             li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'lh-condensed');
-            li.innerHTML = `
-                <div>
-                    <img src="${item.image}" alt="${item.name}" class="img-fluid rounded mr-2" style="width: 50px;">
-                    <h6 class="my-0">${item.name}</h6>
-                    <small class="text-muted">Quantity: ${item.quantity}</small>
-                </div>
-                <span class="text-muted">RM ${item.totalPrice.toFixed(2)}</span>`;
+
+            // Create a div to hold the image and product information
+            const productInfoDiv = document.createElement('div');
+            productInfoDiv.classList.add('d-flex', 'align-items-center');
+            
+            // Add image to the product info div
+            const image = document.createElement('img');
+            image.src = item.image;
+            image.alt = item.name;
+            image.classList.add('img-fluid', 'rounded', 'mr-2');
+            image.style.width = '50px';
+            productInfoDiv.appendChild(image);
+            
+            // Add product name and quantity to the product info div
+            const productNameDiv = document.createElement('div');
+            productNameDiv.innerHTML = `
+                <h6 class="my-0">${item.name}</h6>
+                <small class="text-muted">Quantity: ${item.quantity}</small>`;
+            productInfoDiv.appendChild(productNameDiv);
+
+            // Add the product info div to the list item
+            li.appendChild(productInfoDiv);
+            
+            // Add total price to the list item
+            const totalPriceSpan = document.createElement('span');
+            totalPriceSpan.textContent = `RM ${item.totalPrice.toFixed(2)}`;
+            totalPriceSpan.classList.add('text-muted');
+            li.appendChild(totalPriceSpan);
+            
+            // Append the list item to the cart item list
             cartItemList.appendChild(li);
         });
     }
@@ -304,5 +327,6 @@
 });
 
 </script>
+
 </body>
 </html>

@@ -9,14 +9,21 @@
             font-family: 'Times New Roman', Times, serif, sans-serif;
             text-align: center;
             margin: 50px;
+            background-color: #f9f9f9;
         }
         h1 {
-            color: #007bff;
+            color: #000;
+            margin-bottom: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .form-container {
-            display: inline-block;
             text-align: left;
-            background-color: #f9f9f9;
+            background-color: #fff;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
@@ -25,13 +32,14 @@
         }
         .form-container h2 {
             margin-bottom: 20px;
-            color: #007bff;
+            color: #000;
         }
         .form-group {
             margin-bottom: 20px;
         }
         label {
             font-weight: bold;
+            color: #000;
         }
         input[type="text"],
         input[type="email"],
@@ -49,7 +57,7 @@
             width: calc(100% - 20px);
             padding: 12px;
             border: none;
-            background-color: #007bff;
+            background-color: #000;
             color: #fff;
             font-size: 16px;
             font-weight: bold;
@@ -59,34 +67,38 @@
             box-sizing: border-box;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #333;
         }
     </style>
 </head>
 <body>
     <h1>Payment Received</h1>
     <p>Thank you for your payment.</p>
-    <div class="form-container">
-        <h2>Join Member Now</h2>
-        <form>
-            <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" required>
-            </div>
-            <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Join Now</button>
-        </form>
+    <div class="container">
+        <div class="form-container">
+            <h2>Join Member Now</h2>
+            <form>
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Join Now</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
+
+
