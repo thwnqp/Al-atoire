@@ -57,10 +57,24 @@
             letter-spacing: 1px;
         }
         .list .item img {
-            width: 60%;
-            height: 60%;
-            object-fit: cover;
-        }
+    width: 60%;
+    height: 60%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out; /* Add transition for smooth effect */
+}
+
+.list .item img.pop-out {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2);
+    z-index: 9999;
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 300px; /* Fixed width */
+    height: 300px; /* Fixed height */
+    max-width: 90%; /* Set maximum width to avoid overflowing the screen */
+    max-height: 90%; /* Set maximum height to avoid overflowing the screen */
+}
         .list .item .title {
             font-weight: 600;
         }
@@ -336,6 +350,7 @@ let products = [
      
       
 ];
+
 let listCards = {};
 
     function initApp() {
@@ -419,6 +434,31 @@ function reloadCard() {
     
     // Redirect to the payment checkout page
     window.location.href = 'payment.html';
+    
+    });
+</script>
+<script>
+    // Select all the item images
+    let images = document.querySelectorAll('.list .item img');
+
+    // Add click event listeners to each image
+    images.forEach(image => {
+        image.addEventListener('click', (event) => {
+            // Toggle the 'pop-out' class when the image is clicked
+            image.classList.toggle('pop-out');
+            event.stopPropagation(); // Prevent the click event from propagating to the body
+        });
+    });
+
+    // Add click event listener to the body to remove the pop-out class from all images
+    document.body.addEventListener('click', (event) => {
+        // Check if the clicked target is not a popped-out image
+        if (!event.target.classList.contains('pop-out')) {
+            // Remove the 'pop-out' class from all images
+            images.forEach(image => {
+                image.classList.remove('pop-out');
+            });
+        }
     });
 </script>
 </body>
