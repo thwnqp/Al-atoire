@@ -114,8 +114,6 @@
                         <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
                         <label class="custom-control-label" for="debit">Debit card</label>
                     </div>
-                
-                   
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -163,6 +161,10 @@
                 <ul class="list-group mb-3" id="cartItemList">
                     <!-- Cart items will be dynamically added here -->
                 </ul>
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Total</span>
+                    <span class="text-muted" id="totalPrice">Total: RM 0.00</span>
+                </h4>
                 <form class="card p-2">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Promo code">
@@ -173,6 +175,7 @@
                 </form>
             </div>
         </div>
+    </div>
 </div>
 <footer class="my-5 pt-5 text-muted text-center text-small">
     <p class="mb-1">&copy; 2020-2024 Aléatoire</p>
@@ -181,12 +184,42 @@
       <li class="list-inline-item"><a href="#">Terms</a></li>
       <li class="list-inline-item"><a href="#">Support</a></li>
     </ul>
-  </footer>
-</div>
+</footer>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"><\/script>')</script>
-<script src="form-validation.js"></script> <!-- Close the opening script tag -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Retrieve cart items from local storage
+        const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+        
+        // Display cart items in the payment page
+        const cartItemList = document.getElementById('cartItemList');
+        const cartItemCount = document.getElementById('cartItemCount');
+        let itemCount = 0;
+        let totalPrice = 0;
+
+        if (cartItems && Object.keys(cartItems).length > 0) {
+            Object.values(cartItems).forEach(item => {
+                itemCount += item.quantity;
+                totalPrice += item.totalPrice;
+                
+                // Create list item for each cart item
+                const li = document.createElement('li');
+                li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'lh-condensed');
+                li.innerHTML = `
+                    <div>
+                        <img src="${item.image}" alt="${item.name}" class="img-fluid rounded mr-2" style="width: 50px;">
+                        <h6 class="my-0">${item.name}</h6>
+                        <small class="text-muted">Quantity: ${item.quantity}</small>
+                    </div>
+                    <span class="text-muted">RM ${item.totalPrice.toFixed(2)}</span>`;
+                cartItemList.appendChild(li);
+            });
+        }
+
+        // Update cart item count and total price
+        cartItemCount.textContent = itemCount;
+        document.getElementById('totalPrice').textContent = `Total: RM ${totalPrice.toFixed(2)}`;
+    });
 </script>
 </body>
 </html>

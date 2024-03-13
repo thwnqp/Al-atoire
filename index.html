@@ -316,7 +316,7 @@ let products = [
      
       
 ];
-let listCards = [];
+let listCards = {};
 
     function initApp() {
             let list = document.querySelector('.list');
@@ -361,16 +361,19 @@ function changeQuantity(key, quantity) {
     localStorage.setItem('cartItems', JSON.stringify(listCards));
 }
 
+ // Function to update the UI with cart items
 function reloadCard() {
-    listCard.innerHTML = '';
+    listCard.innerHTML = ''; // Clear the listCard element
     let count = 0;
     let totalPrice = 0;
-    listCards.forEach((value, key) => {
+    // Loop through the keys of listCards object
+    Object.keys(listCards).forEach(key => {
+        const value = listCards[key];
         totalPrice += value.totalPrice;
         count += value.quantity;
-        if (value != null) {
-            let newDiv = document.createElement('li');
-            newDiv.innerHTML = `
+        // Create elements to display cart item details
+        let newDiv = document.createElement('li');
+        newDiv.innerHTML = `
             <div><img src="${value.image}"/></div>
             <div>${value.name}</div>
             <div>RM ${value.totalPrice.toLocaleString()}</div>
@@ -379,12 +382,12 @@ function reloadCard() {
                 <div class="count">${value.quantity}</div>
                 <button onclick="changeQuantity(${key}, ${value.quantity + 1})">+</button>
             </div>`;
-            listCard.appendChild(newDiv);
-        }
+        listCard.appendChild(newDiv);
     });
+    // Update total price and item count
     total.innerHTML = `Proceed to Checkout-RM ${totalPrice.toLocaleString()}`;
-        quantity.innerText = count;
-    }
+    quantity.innerText = count;
+}
 
     // Initialize the app when the page loads
     initApp();
