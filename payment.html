@@ -31,15 +31,33 @@
     display: none;
     white-space: nowrap; /* Add this line to prevent wrapping */
     }
+    #logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px; /* Adjust the height as needed */
+    }
+    /* Make the logo round */
+    #logo img {
+        width: 100px; /* Adjust the width as needed */
+        height: 100px; /* Adjust the height as needed */
+        border-radius: 50%;
+    }
+    h2#payment-heading {
+        font-weight: bold;
+    }
+</style>
 </style>
 </head>
 <body class="bg-light">
-<div class="container">
-    <div class="py-5 text-center">
-        <h2>Payment</h2>
-        <p class="lead">Below is the payment form for your purchase. Please fill in the required information to complete the transaction.</p>
-    </div>
-
+    <div class="container">
+        <div class="py-5 text-center">
+            <div id="logo">
+                <img src="image/logo.png" alt="Your Shop Logo">
+            </div>
+            <h2 id="payment-heading" style="display: inline-block; margin-left: 10px;">Payment</h2>
+            <p class="lead">Below is the payment form for your purchase. Please fill in the required information to complete the transaction.</p>
+        </div>
     <div class="row">
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Payment details</h4>

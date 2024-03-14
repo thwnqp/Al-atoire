@@ -8,18 +8,14 @@
         body {
             font-family: 'Times New Roman', Times, serif, sans-serif;
             text-align: center;
-            margin: 50px;
+            margin: 0;
+            padding: 0;
             background-color: #f9f9f9;
         }
         h1 {
             color: #000;
+            margin-top: 50px;
             margin-bottom: 20px;
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
         }
         .form-container {
             text-align: left;
@@ -29,6 +25,17 @@
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
             width: 400px;
             max-width: 100%;
+            margin: 150px auto 50px auto; /* Adjust top margin to position the form container */
+            position: relative;
+        }
+        .logo {
+            width: 90px;
+            height: 90px;
+            background-color: #ffffff; /* Change this to your logo background color */
+            border-radius: 50%;
+            position: absolute;
+            top: -50px; /* Adjust this value to position the logo */
+            left: calc(50% - 50px); /* Center the logo horizontally */
         }
         .form-container h2 {
             margin-bottom: 20px;
@@ -74,29 +81,28 @@
 <body>
     <h1>Payment Received</h1>
     <p>Thank you for your payment.</p>
-    <div class="container">
-        <div class="form-container">
-            <h2>Join Member Now</h2>
-            <form>
-                <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName" required>
-                </div>
-                <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit">Join Now</button>
-            </form>
-        </div>
+    <div class="form-container">
+        <img class="logo" src="image/logo.png" alt="Logo"> <!-- Replace 'path/to/your/logo.png' with the actual path to your logo image -->
+        <h2>Join Member Now</h2>
+        <form>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Join Now</button>
+        </form>
     </div>
 </body>
 </html>
