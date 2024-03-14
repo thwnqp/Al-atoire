@@ -75,8 +75,12 @@
     max-width: 90%; /* Set maximum width to avoid overflowing the screen */
     max-height: 90%; /* Set maximum height to avoid overflowing the screen */
 }
-        .list .item .title {
-            font-weight: 600;
+.list .item .title {
+    font-weight: 600;
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+    font-size: 14px; /* Set initial font size */
         }
         .list .item .price {
             margin: 10px;
