@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up for Newsletter</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #fff; /* Set background color to white */
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            text-align: left;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 20px; /* Adjust border-radius for rectangular shape */
+            /* Removed box-shadow property */
+            max-width: 600px; /* Set a wider max-width */
+            width: 80%; /* Adjust width as needed */
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-end; /* Align items to the bottom */
+        }
+        input[type="email"] {
+            width: calc(100% - 160px); /* Set width to 100% minus button width and margin */
+            padding: 10px;
+            border: none; /* Remove border */
+            border-radius: 0;
+            border-bottom: 1px solid #ccc; /* Add bottom border */
+            box-sizing: border-box;
+            margin-right: 10px; /* Add margin between the input field and button */
+            margin-top: 5px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            outline: none; /* Remove outline */
+        }
+        button {
+            width: 130px; /* Set button width */
+            padding: 12px;
+            border: none;
+            background-color: #000;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-sizing: border-box;
+        }
+        button:hover {
+            background-color: #333;
+        }
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Sign Up for Newsletter</h2>
+            <form id="subscribe-form">
+                <div class="form-group">
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
+                </div>
+            </form>
+            <div class="success-message" id="success-message" style="display: none;">Successfully subscribed. Thanks!</div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("subscribe-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            document.getElementById("success-message").style.display = "block";
+        });
+    </script>
+</body>
+</html>
