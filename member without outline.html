@@ -23,7 +23,7 @@
             background-color: #fff;
             padding: 30px;
             border-radius: 20px; /* Adjust border-radius for rectangular shape */
-            /* Removed box-shadow property */
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
             max-width: 600px; /* Set a wider max-width */
             width: 80%; /* Adjust width as needed */
         }
@@ -80,7 +80,7 @@
     <div class="container">
         <div class="form-container">
             <h2>Join Member Now</h2>
-            <form>
+            <form id="join-form">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
                     <input type="text" id="firstName" name="firstName" required>
@@ -93,9 +93,19 @@
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                <button type="submit">Join Now</button>
+                <button type="submit" id="join-btn">Join Now</button>
             </form>
+            <div id="success-message" style="display: none; color: green; margin-top: 20px;">Successfully Joined. Thank you!</div>
         </div>
     </div>
+
+    <script>
+        document.getElementById("join-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            // Validate form here (for simplicity, we'll assume all fields are valid)
+            // Display success message
+            document.getElementById("success-message").style.display = "block";
+        });
+    </script>
 </body>
 </html>
