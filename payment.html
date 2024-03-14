@@ -10,6 +10,28 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<style>
+    body,
+    button,
+    input,
+    select {
+        font-family: "Times New Roman", Times, serif;
+    }
+
+    .btn-primary {
+        background-color: black;
+        color: white;
+    }
+    #cc-cvv {
+        width: 100px; /* Adjust this value as needed */
+    }
+    .invalid-feedback {
+    width: auto;
+    display: none;
+    white-space: nowrap; /* Add this line to prevent wrapping */
+    }
+</style>
 </head>
 <body class="bg-light">
 <div class="container">
@@ -83,9 +105,9 @@
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="zip">Zip</label>
-                        <input type="text" class="form-control" id="zip" placeholder="" required>
+                        <input type="text" class="form-control" id="zip" placeholder="" pattern="\d{5}" required>
                         <div class="invalid-feedback">
-                            Zip code required.
+                            Zip code must be 5 digits.
                         </div>
                     </div>
                 </div>
@@ -99,6 +121,14 @@
                     </select>
                     <div class="invalid-feedback">
                         Please select a delivery option.
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="deliveryDate">Delivery / Pickup Date</label>
+                    <input type="date" class="form-control" id="deliveryDate" required>
+                    <div class="invalid-feedback">
+                        Please choose a delivery/pickup date.
                     </div>
                 </div>
                 
@@ -126,25 +156,27 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="cc-number">Credit Card Number</label>
-                        <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                        <input type="text" class="form-control" id="cc-number" placeholder="xxxx xxxx xxxx xxxx" maxlength="19" required>
                         <div class="invalid-feedback">
-                            Credit card number is required
+                            Please enter a valid credit card number.
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="cc-expiration">Expiration</label>
-                        <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                        <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YY" required>
                         <div class="invalid-feedback">
                             Expiration date required
                         </div>
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="cc-cvv">CVV</label>
-                        <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Security code required
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="cc-cvv">CVV</label>
+                            <input type="password" class="form-control" id="cc-cvv" placeholder="" minlength="3" maxlength="3" required>
+                            <div class="invalid-feedback">
+                                Security code required
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -325,7 +357,59 @@
     cartItemCount.textContent = itemCount;
     updateTotalPrice();
 });
+document.getElementById('cc-number').addEventListener('input', function() {
+    // Remove non-numeric characters
+    let ccNumber = this.value.replace(/\D/g, '');
 
+    // Format as xxxx xxxx xxxx xxxx
+    ccNumber = ccNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+    // Update input value
+    this.value = ccNumber;
+});
+document.getElementById('zip').addEventListener('input', function() {
+    // Remove non-numeric characters
+    let zipCode = this.value.replace(/\D/g, '');
+
+    // Limit to 5 digits
+    zipCode = zipCode.substring(0, 5);
+
+    // Update input value
+    this.value = zipCode;
+});
+document.getElementById('cc-expiration').addEventListener('input', function() {
+    // Remove non-numeric characters
+    let expiration = this.value.replace(/\D/g, '');
+
+    // Restrict to 4 digits
+    expiration = expiration.substring(0, 4);
+
+    // Format as MM/YY
+    if (expiration.length >= 2) {
+        expiration = expiration.substring(0, 2) + '/' + expiration.substring(2);
+    }
+
+    // Update input value
+    this.value = expiration;
+});
+document.getElementById('cc-cvv').addEventListener('input', function() {
+    // Remove non-numeric characters
+    let cvv = this.value.replace(/\D/g, '');
+
+    // Limit to 3 digits
+    cvv = cvv.substring(0, 3);
+
+    // Update input value
+    this.value = cvv;
+
+    // Show invalid feedback if CVV length is not 3
+    const invalidFeedback = this.nextElementSibling; // Get the next sibling, which is the invalid feedback element
+    if (cvv.length !== 3) {
+        invalidFeedback.style.display = 'block';
+    } else {
+        invalidFeedback.style.display = 'none';
+    }
+});
 </script>
 
 </body>
